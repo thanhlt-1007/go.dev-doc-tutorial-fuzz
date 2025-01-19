@@ -22,5 +22,11 @@ go run .
 
 ```sh
 cd fuzz
-go test .
+go test . -v
+```
+
+## go test fuzz
+
+```sh
+go test . -v -fuzz=Fuzz
 ```
