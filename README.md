@@ -28,5 +28,5 @@ go test . -v
 ## go test fuzz
 
 ```sh
-go test . -v -fuzz=Fuzz
+go test . -v -fuzz=Fuzz -fuzztime 10s
 ```
