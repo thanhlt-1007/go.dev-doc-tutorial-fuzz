@@ -5,22 +5,25 @@ import (
     "unicode/utf8"
 )
 
-func FuzzReverse(fuzz *testing.F) {
-    testcases := []string{"Hello, world", " ", "!12345"}
-    for _, testcase := range testcases {
-        // Use f.Add to provide a seed corpus
-        fuzz.Add(testcase)
+func FuzzReverse(f *testing.F) {
+    testcases := []string {"Hello, world", " ", "!12345"}
+    for _, tc := range testcases {
+        f.Add(tc)  // Use f.Add to provide a seed corpus
     }
-
-    fuzz.Fuzz(func(test *testing.T, orig string) {
-        reverse := Reverse(orig)
-        doubleRev := Reverse(reverse)
-        if orig != doubleRev {
-            test.Errorf("Before: %q, after: %q", orig, doubleRev)
+    f.Fuzz(func(t *testing.T, orig string) {
+        rev, err1 := Reverse(orig)
+        if err1 != nil {
+            return
         }
-
-        if utf8.ValidString(orig) && !utf8.ValidString(reverse) {
-            test.Errorf("Reverse produced invalid UTF-8 string %q", reverse)
+        doubleRev, err2 := Reverse(rev)
+        if err2 != nil {
+             return
+        }
+        if orig != doubleRev {
+            t.Errorf("Before: %q, after: %q", orig, doubleRev)
+        }
+        if utf8.ValidString(orig) && !utf8.ValidString(rev) {
+            t.Errorf("Reverse produced invalid UTF-8 string %q", rev)
         }
     })
 }

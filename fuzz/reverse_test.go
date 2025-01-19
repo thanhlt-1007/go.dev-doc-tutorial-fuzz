@@ -16,7 +16,7 @@ func TestRever(test *testing.T) {
     }
 
     for _, testcase := range testcases {
-        reverse := Reverse(testcase.in)
+        reverse, _ := Reverse(testcase.in)
         if reverse != testcase.want {
             test.Errorf("Reverse: %q, want %q", reverse, testcase.want)
         }
